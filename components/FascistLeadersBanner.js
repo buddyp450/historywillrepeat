@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import FinalSection from './FinalSection';
 
 const leaders = [
   {
@@ -36,7 +37,6 @@ const leaders = [
 ];
 
 const Wrapper = styled.div`
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -60,19 +60,6 @@ const HeaderText = styled.h2`
   color: #222;
   margin: 0;
   text-align: center;
-`;
-
-const PointLink = styled.a`
-  color: #d32f2f;
-  font-weight: 700;
-  font-size: 1.1rem;
-  margin-left: 1.5rem;
-  text-decoration: underline;
-  cursor: pointer;
-  transition: color 0.2s;
-  &:hover {
-    color: #b71c1c;
-  }
 `;
 
 const Banner = styled.div`
@@ -183,17 +170,6 @@ const BlurbText = styled.div`
   line-height: 1.5;
   overflow-wrap: break-word;
   word-break: break-word;
-`;
-
-const ArrowContainer = styled(motion.div)`
-  position: absolute;
-  left: 50%;
-  bottom: 2.5rem;
-  transform: translateX(-50%);
-  font-size: 10rem;
-  color: #666;
-  cursor: pointer;
-  z-index: 10;
 `;
 
 export default function FascistLeadersBanner() {

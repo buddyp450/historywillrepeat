@@ -161,8 +161,8 @@ export default function QuestionCard({ question, onAnswer, index }) {
   ];
   const displaySections = isMobile ? [...sections].reverse() : sections;
 
-  const handleSubmit = () => {
-    onAnswer(selectedAnswer);
+  const handleAnswer = (answer) => {
+    onAnswer(answer);
     setSelectedAnswer(null);
   };
 
@@ -181,14 +181,14 @@ export default function QuestionCard({ question, onAnswer, index }) {
             {displaySections.map((section, i) => (
               <Section
                 key={i}
-                onClick={() => setSelectedAnswer(isMobile ? 4 - i : i)}
+                onClick={() => handleAnswer(isMobile ? 4 - i : i)}
                 role="radio"
                 aria-checked={selectedAnswer === (isMobile ? 4 - i : i)}
                 tabIndex={0}
                 onKeyPress={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    setSelectedAnswer(isMobile ? 4 - i : i);
+                    handleAnswer(isMobile ? 4 - i : i);
                   }
                 }}
               >
@@ -211,14 +211,14 @@ export default function QuestionCard({ question, onAnswer, index }) {
             <MobileButton
               key={i}
               selected={selectedAnswer === (isMobile ? 4 - i : i)}
-              onClick={() => setSelectedAnswer(isMobile ? 4 - i : i)}
+              onClick={() => handleAnswer(isMobile ? 4 - i : i)}
               role="radio"
               aria-checked={selectedAnswer === (isMobile ? 4 - i : i)}
               tabIndex={0}
               onKeyPress={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
-                  setSelectedAnswer(isMobile ? 4 - i : i);
+                  handleAnswer(isMobile ? 4 - i : i);
                 }
               }}
             >
@@ -227,12 +227,6 @@ export default function QuestionCard({ question, onAnswer, index }) {
           ))}
         </MobileButtonContainer>
       )}
-      <SubmitButton
-        onClick={handleSubmit}
-        disabled={selectedAnswer === null}
-      >
-        Submit
-      </SubmitButton>
     </Card>
   );
 } 

@@ -3,13 +3,18 @@ import { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Container = styled.div`
-  min-height: 100vh;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background: white;
-  padding: 2rem;
+  transition: background 0.5s ease;
+  position: relative;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
 `;
 
 const TypingText = styled(motion.div)`
@@ -161,18 +166,8 @@ export default function FinalSection({ answers, totalQuestions }) {
   const shareUrl = 'https://historywillrepeat.com';
 
   useEffect(() => {
-    function handleScroll() {
-      if (!typingStarted && sectionRef.current) {
-        const rect = sectionRef.current.getBoundingClientRect();
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-          setTypingStarted(true);
-        }
-      }
-    }
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // check on mount
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [typingStarted]);
+    setTypingStarted(true);
+  }, []);
 
   useEffect(() => {
     if (!typingStarted) return;
@@ -213,9 +208,22 @@ export default function FinalSection({ answers, totalQuestions }) {
             transition={{ duration: 0.8 }}
           >
             <ResultMessage>
-              Based on your responses, the likelihood of you living in a fascist state is:
+              Based on your responses, the percentile reflects how much your experience or worldview may have been shaped by conditions often found in authoritarian societies—whether or not you're aware of it.
             </ResultMessage>
             <Percentage percent={percent}>{percent}%</Percentage>
+            <ResultMessage>
+            If you have a high percentile, it doesn’t mean you're to blame—it suggests you've been exposed to or internalized norms from a system that may limit freedom, dissent, or diversity.</ResultMessage>
+            <ResultMessage>
+              <b>What you can do:</b>
+            </ResultMessage>
+            <ResultMessage>Reflect on where those views or perceptions come from—personal experience, media, education, or fear.
+
+Stay curious. Seek out voices that challenge the dominant narrative, especially from marginalized or dissenting perspectives.
+
+</ResultMessage><ResultMessage>Focus on community: real democracy grows from relationships, local action, and shared power—not control from the top down.
+
+<ResultMessage>It's not about guilt. It’s about awareness—and what you do with it.</ResultMessage>
+            </ResultMessage>
           </ResultBox>
         )}
       </AnimatePresence>

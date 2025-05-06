@@ -1,0 +1,5 @@
+name = "historywillrepeat"
+compatibility_date = "2025-05-05"
+
+[site]
+bucket = "./out"

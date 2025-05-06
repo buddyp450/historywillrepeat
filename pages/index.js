@@ -196,9 +196,12 @@ export default function Home() {
   return (
     <Container>
       <Head>
-        <title>Wellness Questionnaire</title>
-        <meta name="description" content="A simple wellness questionnaire" />
-        <link rel="icon" href="/favicon.ico" />
+        <title>History Will Repeat</title>
+        <meta name="description" content="A political questionnaire to help understand fascism" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon_ioapple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon_iofavicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon_io/favicon-16x16.png" />
+        <link rel="manifest" href="/assets/favicon_io/site.webmanifest" />
       </Head>
 
       {!showResult && (

@@ -4,7 +4,7 @@
   "description": "A questionnaire website that measures fascist tendencies",
   "main": "index.js",
   "scripts": {
-    "build": "npx next-on-pages --experimental-minify",
+    "build": "npx next-on-pages",
     "deploy": "npx wrangler pages deploy .vercel/output/static --project-name=historywillrepeat",
     "dev": "next dev",
     "start": "next start",

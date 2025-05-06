@@ -21,20 +21,23 @@ const TypingText = styled(motion.div)`
   font-size: 2.2rem;
   font-weight: 600;
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 0;
   color: #222;
   min-height: 3.5rem;
 `;
 
 const ResultBox = styled(motion.div)`
-  margin: 2.5rem 0 1.5rem 0;
-  padding: 2rem 3rem;
+  margin: 0 0 1.5rem 0;
+  padding: 2rem 1.5rem;
   border-radius: 18px;
   background: #f7f7f7;
   box-shadow: 0 4px 24px rgba(0,0,0,0.07);
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 `;
 
 const ResultMessage = styled.div`
@@ -42,6 +45,8 @@ const ResultMessage = styled.div`
   color: #444;
   margin-bottom: 1.2rem;
   text-align: center;
+  width: 100%;
+  max-width: 100%;
 `;
 
 const Percentage = styled.div`
@@ -212,7 +217,7 @@ export default function FinalSection({ answers, totalQuestions }) {
             </ResultMessage>
             <Percentage percent={percent}>{percent}%</Percentage>
             <ResultMessage>
-            If you have a high percentile, it doesn’t mean you're to blame—it suggests you've been exposed to or internalized norms from a system that may limit freedom, dissent, or diversity.</ResultMessage>
+            If you have a high percentile, it doesn't mean you're to blame—it suggests you've been exposed to or internalized norms from a system that may limit freedom, dissent, or diversity.</ResultMessage>
             <ResultMessage>
               <b>What you can do:</b>
             </ResultMessage>
@@ -222,7 +227,7 @@ Stay curious. Seek out voices that challenge the dominant narrative, especially 
 
 </ResultMessage><ResultMessage>Focus on community: real democracy grows from relationships, local action, and shared power—not control from the top down.
 
-<ResultMessage>It's not about guilt. It’s about awareness—and what you do with it.</ResultMessage>
+<ResultMessage>It's not about guilt. It's about awareness—and what you do with it.</ResultMessage>
             </ResultMessage>
           </ResultBox>
         )}

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 
 const Card = styled(motion.div)`
   background: white;
-  padding: 2rem;
+  padding: 0.4rem 2rem 2rem 2rem;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   max-width: 800px;
@@ -90,7 +90,7 @@ const Label = styled.div`
 
 const QuestionText = styled.h2`
   font-size: 1.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 0.4rem;
   color: #333;
 `;
 

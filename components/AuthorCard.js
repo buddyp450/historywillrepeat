@@ -1,19 +1,31 @@
 import styled from '@emotion/styled';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
   max-width: 1200px;
   margin: 2rem auto;
   padding: 2rem;
   gap: 4rem;
   min-height: 80vh;
   align-items: center;
+  position: relative;
   @media (max-width: 900px) {
     flex-direction: column;
     gap: 2rem;
     padding: 1rem;
+  }
+`;
+
+const ContentWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 4rem;
+  @media (max-width: 900px) {
+    flex-direction: column;
+    gap: 2rem;
   }
 `;
 
@@ -65,13 +77,12 @@ const Description = styled(motion.div)`
 `;
 
 const ScrollIndicator = styled(motion.div)`
-  position: absolute;
-  bottom: 10%;
-  left: 50%;
-  transform: translateX(-50%);
   font-size: 8rem;
   color: #666;
   cursor: pointer;
+  margin-top: 2rem;
+  position: relative;
+  z-index: 10;
 `;
 
 const Paragraph = styled.p`
@@ -80,6 +91,8 @@ const Paragraph = styled.p`
 
 export default function AuthorCard({ onContinue }) {
   const [showScrollIndicator, setShowScrollIndicator] = useState(false);
+  const [hasReachedArrow, setHasReachedArrow] = useState(false);
+  const containerRef = useRef(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -88,73 +101,70 @@ export default function AuthorCard({ onContinue }) {
     return () => clearTimeout(timer);
   }, []);
 
-  // Listen for scroll or swipe down
   useEffect(() => {
     const handleScroll = (e) => {
-      if (window.scrollY > 10) {
+      if (!containerRef.current) return;
+      
+      const container = containerRef.current;
+      const containerBottom = container.getBoundingClientRect().bottom;
+      const arrowElement = container.querySelector('[data-scroll-indicator]');
+      
+      if (!arrowElement) return;
+      
+      const arrowBottom = arrowElement.getBoundingClientRect().bottom;
+      
+      if (containerBottom <= window.innerHeight && !hasReachedArrow) {
+        setHasReachedArrow(true);
+        window.scrollTo({
+          top: arrowBottom - window.innerHeight,
+          behavior: 'smooth'
+        });
+      }
+      
+      if (hasReachedArrow && window.scrollY > arrowBottom - window.innerHeight) {
         onContinue && onContinue();
       }
     };
-    const handleWheel = (e) => {
-      if (e.deltaY > 30) {
-        onContinue && onContinue();
-      }
-    };
-    const handleTouch = (e) => {
-      let startY = null;
-      const onTouchMove = (moveEvent) => {
-        if (startY === null) startY = moveEvent.touches[0].clientY;
-        const diff = startY - moveEvent.touches[0].clientY;
-        if (diff < -40) {
-          onContinue && onContinue();
-          window.removeEventListener('touchmove', onTouchMove);
-        }
-      };
-      window.addEventListener('touchmove', onTouchMove);
-      window.removeEventListener('touchstart', handleTouch);
-    };
-    window.addEventListener('wheel', handleWheel, { passive: true });
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('touchstart', handleTouch, { passive: true });
-    return () => {
-      window.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('touchstart', handleTouch);
-    };
-  }, [onContinue]);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [hasReachedArrow, onContinue]);
 
   return (
-    <Container>
-      <ImageColumn>
-        <AuthorImage src="/assets/dr_lawrence_brit.jpg" alt="Dr. Lawrence W. Britt" />
-      </ImageColumn>
-      <TextColumn>
-        <Title
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 2.2 }}
-        >
-          Dr. Lawrence W. Britt
-        </Title>
-        <Description
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 2.2 }}
-        >
-          <Paragraph>
-            International businessman turned writer and commentator. After a successful career in the corporate world, he channeled his lifelong passion for history and current events into writing.
-          </Paragraph>
-          <Paragraph>
-            He's a voracious reader and self-taught scholar, boasting a personal library of over 3,000 volumes on history and politics.
-          </Paragraph>
-          <Paragraph>
-            His deep dives into the past inform his insights into the present, making him a compelling voice in contemporary discourse.
-          </Paragraph>
-        </Description>
-      </TextColumn>
+    <Container ref={containerRef}>
+      <ContentWrapper>
+        <ImageColumn>
+          <AuthorImage src="/assets/dr_lawrence_brit.jpg" alt="Dr. Lawrence W. Britt" />
+        </ImageColumn>
+        <TextColumn>
+          <Title
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 2.2 }}
+          >
+            Dr. Lawrence W. Britt
+          </Title>
+          <Description
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, delay: 2.2 }}
+          >
+            <Paragraph>
+              International businessman turned writer and commentator. After a successful career in the corporate world, he channeled his lifelong passion for history and current events into writing.
+            </Paragraph>
+            <Paragraph>
+              He's a voracious reader and self-taught scholar, boasting a personal library of over 3,000 volumes on history and politics.
+            </Paragraph>
+            <Paragraph>
+              His deep dives into the past inform his insights into the present, making him a compelling voice in contemporary discourse.
+            </Paragraph>
+          </Description>
+        </TextColumn>
+      </ContentWrapper>
       <AnimatePresence>
         {showScrollIndicator && (
           <ScrollIndicator
+            data-scroll-indicator
             initial={{ y: 20 }}
             animate={{ 
               y: [0, 10, 0]
@@ -165,7 +175,6 @@ export default function AuthorCard({ onContinue }) {
               ease: "easeInOut"
             }}
             onClick={() => onContinue && onContinue()}
-            style={{ cursor: 'pointer' }}
           >
             ↓
           </ScrollIndicator>

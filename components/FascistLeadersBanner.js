@@ -107,6 +107,28 @@ const Section = styled.div`
   }
 `;
 
+const ExpandIcon = styled.div`
+  display: none;
+  @media (max-width: 900px) {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    z-index: 2;
+    opacity: ${({ expanded }) => (expanded ? 0 : 1)};
+    transition: opacity 0.3s ease;
+  }
+`;
+
 const LeaderImg = styled.img`
   width: 100%;
   height: 100%;
@@ -194,6 +216,7 @@ export default function FascistLeadersBanner() {
             aria-label={leader.name}
           >
             <LeaderImg src={leader.img} alt={leader.name} expanded={expanded === i} />
+            <ExpandIcon expanded={expanded === i}>+</ExpandIcon>
             <Blurb expanded={expanded === i}>
               <Name>
                 {leader.name} <span style={{ fontWeight: 400, color: '#888' }}>({leader.country})</span>

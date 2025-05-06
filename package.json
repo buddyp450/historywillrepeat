@@ -4,8 +4,9 @@
   "description": "A questionnaire website that measures fascist tendencies",
   "main": "index.js",
   "scripts": {
+    "build": "npx next-on-pages --experimental-minify",
+    "deploy": "npx wrangler pages deploy .vercel/output/static --project-name=historywillrepeat",
     "dev": "next dev",
-    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -22,5 +23,8 @@
   },
   "engines": {
     "node": ">=18.17.0"
+  },
+  "devDependencies": {
+    "@cloudflare/next-on-pages": "^1.13.12"
   }
 }
